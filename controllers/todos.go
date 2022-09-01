@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"golangGinMongoDb/middlewares"
 	"golangGinMongoDb/services"
 
 	"github.com/gin-gonic/gin"
@@ -8,9 +9,9 @@ import (
 
 // add TodoController
 func AddTodoRoutes(api *gin.RouterGroup) {
-	api.GET("/todos", services.GetTodos)
-	api.POST("/todos", services.CreateTodo)
-	api.GET("/todos/:id", services.GetTodo)
-	api.PUT("/todos/:id", services.UpdateTodo)
-	api.DELETE("/todos/:id", services.DeleteTodo)
+	api.GET("/todos", middlewares.WithAuthentication(), services.GetTodos)
+	api.POST("/todos", middlewares.WithAuthentication(), services.CreateTodo)
+	api.GET("/todos/:id", middlewares.WithAuthentication(), services.GetTodo)
+	api.PUT("/todos/:id", middlewares.WithAuthentication(), services.UpdateTodo)
+	api.DELETE("/todos/:id", middlewares.WithAuthentication(), services.DeleteTodo)
 }
