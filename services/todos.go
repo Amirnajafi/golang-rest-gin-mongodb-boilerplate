@@ -31,9 +31,23 @@ func GetTodos(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, todos)
 }
+
 func GetTodo(c *gin.Context) {
-	c.JSON(http.StatusOK, "post added")
+	todoId := c.Param("id")
+	objId, _ := primitive.ObjectIDFromHex(todoId)
+	result := todosCollections.FindOne(c, bson.M{"id": objId})
+	if result.Err() != nil {
+		c.JSON(http.StatusInternalServerError, result.Err())
+		return
+	}
+	var todo models.Todos
+	if err := result.Decode(&todo); err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+	c.JSON(http.StatusOK, todo)
 }
+
 func CreateTodo(c *gin.Context) {
 	var todo models.Todos
 	if err := c.BindJSON(&todo); err != nil {
