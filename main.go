@@ -14,6 +14,7 @@ var (
 func getRoutes() {
 	api := router.Group("/api")
 	controllers.AddTodoRoutes(api)
+	controllers.AuthRoutes(api)
 }
 
 func Run() {
