@@ -21,7 +21,7 @@ var userCollections *mongo.Collection = configs.GetCollection(configs.DB, "users
 var validate = validator.New()
 
 func Login(c *gin.Context) {
-	var user dto.RegisterDto
+	var user dto.AuthDto
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -63,7 +63,7 @@ func Login(c *gin.Context) {
 }
 
 func Register(c *gin.Context) {
-	var user dto.RegisterDto
+	var user dto.AuthDto
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
